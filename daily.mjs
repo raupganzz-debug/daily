@@ -1,4 +1,5 @@
 import fs from "node:fs";
+
 const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
   timeZone: "Asia/Jakarta",
   year: "numeric",
@@ -9,10 +10,16 @@ const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
   second: "2-digit",
   hour12: false
 }).formatToParts(new Date()).filter(x => x.type !== "literal").map(x => [x.type, x.value]));
+
 const date = `${parts.year}-${parts.month}-${parts.day}`;
 const time = `${parts.hour}:${parts.minute}:${parts.second}`;
 const ext = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86400000) % 2 ? "py" : "ts";
-const file = `daily/${ext === "ts" ? "daily.ts" : "daily.py"}`;
+const file = `daily/${date}.${ext}`;
+
 fs.mkdirSync("daily", { recursive: true });
-fs.writeFileSync(file, ext === "ts" ? `export const date: string = "${date}";\nexport const time: string = "${time}";\n`: `date = "${date}"\ntime = "${time}"\n`);
-console.log(`Updated ${file} at ${date} ${time} WIB`);
+fs.writeFileSync(file, ext === "ts"
+  ? `export const date: string = "${date}";\nexport const time: string = "${time}";\n`
+  : `date = "${date}"\ntime = "${time}"\n`
+);
+
+console.log(`Created ${file} at ${date} ${time} WIB`);

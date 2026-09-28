@@ -24,11 +24,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          git clone https://x-access-token:${GH_TOKEN}@github.com/KurniawanSatria/TARGET-REPO.git target
+          git clone https://x-access-token:${GH_TOKEN}@github.com/KurniawanSatria/daily.git target
           cp -r daily target/
           cd target
           git config user.name "KurniawanSatria"
-          git config user.email "EMAIL_GITHUB"
+          git config user.email "contact@saturia.codes"
           git add daily
           git diff --cached --quiet && exit 0
           git commit -m "chore: daily update"

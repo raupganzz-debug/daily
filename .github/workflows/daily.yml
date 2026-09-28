@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 22
 
-      - run: node scripts/daily.mjs
+      - run: node daily.mjs
 
       - name: Push to target
         env:
